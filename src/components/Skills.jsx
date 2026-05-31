@@ -1,85 +1,129 @@
 import { motion } from 'framer-motion'
 import { skills } from '../data/portfolio'
 
-function SkillTag({ name, delay }) {
+const ALL_TOOLS = [
+  'Git', 'GitHub', 'Docker', 'AWS', 'Power BI', 'Tableau', 'Jira',
+  'Wireshark', 'Ubuntu Linux', 'Google Gemini API', 'MATLAB', 'Microsoft 365',
+  'VS Code', 'Postman', 'Figma', 'Streamlit', 'MLFlow',
+]
+
+function Marquee() {
+  const doubled = [...ALL_TOOLS, ...ALL_TOOLS]
   return (
-    <motion.span
-      initial={{ opacity: 0, scale: 0.85 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.25, ease: 'easeOut' }}
-      className="skill-tag inline-flex items-center px-3 py-1.5 border font-mono text-xs rounded-sm transition-all duration-200"
-      style={{
-        borderColor: '#1a2540',
-        color: '#8892a4',
-        backgroundColor: '#0d1526',
-      }}
-    >
-      {name}
-    </motion.span>
+    <div className="marquee-track py-2">
+      <div className="marquee-inner">
+        {doubled.map((tool, i) => (
+          <span
+            key={i}
+            className="font-mono text-xs px-4 py-1.5 mx-2 rounded-full border shrink-0"
+            style={{ borderColor: '#1a2540', color: '#8892a4', backgroundColor: '#0d1526' }}
+          >
+            {tool}
+          </span>
+        ))}
+      </div>
+    </div>
   )
 }
 
+const CORE_SKILLS = [
+  {
+    category: 'Languages',
+    items: ['Python', 'Java', 'JavaScript', 'SQL', 'TypeScript'],
+  },
+  {
+    category: 'Frontend',
+    items: ['React', 'HTML / CSS', 'Tailwind CSS', 'Leaflet.js', 'Recharts', 'Figma'],
+  },
+  {
+    category: 'Backend & Data',
+    items: ['FastAPI', 'Spring Boot', 'PostgreSQL', 'MySQL', 'MongoDB', 'REST APIs', 'WebSocket'],
+  },
+  {
+    category: 'ML & AI',
+    items: ['PyTorch', 'Scikit-learn', 'Pandas', 'NumPy', 'Streamlit', 'MLFlow', 'Gemini API'],
+  },
+]
+
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 px-6" style={{ backgroundColor: 'rgba(13, 21, 38, 0.4)' }}>
-      <div className="max-w-6xl mx-auto">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="section-label"
-        >
-          // 02 — SKILLS
-        </motion.p>
+    <section id="skills" className="py-28 px-6 lg:px-12" style={{ backgroundColor: 'rgba(13,21,38,0.5)' }}>
+      <div className="max-w-7xl mx-auto">
 
-        <div className="mt-10 space-y-10">
-          {Object.entries(skills).map(([category, items], catIdx) => (
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="flex items-center gap-4 mb-16"
+        >
+          <span className="section-label">// 02 — Skills</span>
+          <div className="flex-1 h-px" style={{ backgroundColor: '#1a2540' }} />
+        </motion.div>
+
+        {/* Core skills — table layout */}
+        <div className="space-y-0 mb-16">
+          {CORE_SKILLS.map((group, gi) => (
             <motion.div
-              key={category}
+              key={group.category}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: catIdx * 0.05, duration: 0.5 }}
+              transition={{ delay: gi * 0.08, duration: 0.5 }}
+              className="grid sm:grid-cols-[160px_1fr] gap-6 py-6 border-t"
+              style={{ borderColor: '#1a2540' }}
             >
-              <h3
-                className="font-syne font-semibold text-sm mb-4 uppercase tracking-wider"
-                style={{ color: '#f0f0f0' }}
-              >
-                {category}
-              </h3>
+              <div className="flex items-start pt-1">
+                <span className="font-mono text-xs uppercase tracking-widest" style={{ color: '#00ff88' }}>
+                  {group.category}
+                </span>
+              </div>
               <div className="flex flex-wrap gap-2">
-                {items.map((skill, i) => (
-                  <SkillTag
-                    key={skill.name}
-                    name={skill.name}
-                    delay={i * 0.04}
-                  />
+                {group.items.map((skill, i) => (
+                  <motion.span
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: gi * 0.05 + i * 0.04, duration: 0.25 }}
+                    className="skill-tag font-mono text-xs px-3 py-1.5 rounded-sm"
+                  >
+                    {skill}
+                  </motion.span>
                 ))}
               </div>
             </motion.div>
           ))}
+          <div className="border-t" style={{ borderColor: '#1a2540' }} />
         </div>
 
         {/* Certification */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-10 p-5 border rounded-sm inline-flex items-center gap-3"
+          className="inline-flex items-center gap-3 px-4 py-3 border rounded-sm mb-16"
           style={{ borderColor: '#1a2540', backgroundColor: '#0d1526' }}
         >
-          <span className="text-xl">📜</span>
+          <span className="text-lg">📜</span>
           <div>
-            <p className="font-mono text-sm" style={{ color: '#f0f0f0' }}>
-              Machine Learning & AI Ethics
-            </p>
+            <p className="font-mono text-xs" style={{ color: '#f0f0f0' }}>Machine Learning & AI Ethics</p>
             <p className="font-mono text-xs mt-0.5" style={{ color: '#8892a4' }}>
               Coursera · <span style={{ color: '#f5c842' }}>In Progress</span>
             </p>
           </div>
+        </motion.div>
+
+        {/* Tools marquee */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: '#8892a4' }}>
+            Tools & Platforms
+          </p>
+          <Marquee />
         </motion.div>
       </div>
     </section>
